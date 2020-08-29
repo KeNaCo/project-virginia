@@ -1,0 +1,96 @@
+openapi: "3.0.3"
+info:
+  title: Payment providers
+  description: Payment providers for backup task on pythonweekend košice
+  version: "1.0"
+  x-visibility: unlisted
+servers:
+  - url: http://localhost:5000/{basePath}
+    description: Kiwi.com gladstone app
+    variables:
+      basePath:
+        default: ""
+
+components:
+  schemas:
+    PaymentObject:
+      type: object
+      title: payment object
+      description: payment object
+      properties:
+        value:
+          type: string
+        currency:
+          type: string
+        transaction_id:
+          type: string
+          format: UUID
+          nullable: true
+        status:
+          type: string
+        created_at:
+          type: string
+      required:
+        - payment_object
+
+paths:
+  /payments:
+    post:
+      summary: Create a payment.
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: string
+                currency:
+                  description: Currency code as defined in ISO-4217
+                  type: string
+                  minLength: 3
+                  maxLength: 3
+                  nullable: true
+                  default: EUR
+              required:
+                - amount
+                - currency
+              example:
+                amount: 35
+                currency: SEK
+      responses:
+        '200':
+          description: Payment object created.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PaymentObject'
+      tags:
+        - Create Payment
+    get:
+      summary: Processed payments.
+      responses:
+        '200':
+          description: Payment object created.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PaymentObject'
+      tags:
+        - Create Payment
+  /payments/{payment}/pay:
+    post:
+      summary: Make payment
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/PaymentObject'
+      responses:
+        '200':
+          description: Payment processed.
+          content:
+      tags:
+        - Make Payment.
