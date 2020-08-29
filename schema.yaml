@@ -78,10 +78,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaymentObject'
       tags:
-        - Create Payment
+        - Get Payments
   /payments/{payment}/pay:
     post:
-      summary: Make payment
+      summary: Make payment.
       requestBody:
         required: true
         content:
@@ -93,4 +93,4 @@ paths:
           description: Payment processed.
           content:
       tags:
-        - Make Payment.
+        - Make Payment
